@@ -70,10 +70,10 @@ public class RobotContainer {
     // pressed,
     // cancelling on release.
     // driver.b().whileTrue(m_shooter.exampleMethodCommand());
-    elevatorUpButton.whileTrue(elevatorUp);
-    elevatorDownButton.whileTrue(elevatorDown);
-    climbUpButton.onTrue(climbUp);
-    climbDownButton.onTrue(climbDown);
+    elevatorUpButton.onTrue(elevatorUp);
+    elevatorDownButton.onTrue(elevatorDown);
+    climbUpButton.whileTrue(climbUp);
+    climbDownButton.whileTrue(climbDown);
   }
 
   /**
