@@ -4,66 +4,54 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ClimbConstants;
 
 public class Climb extends SubsystemBase {
-  CANSparkMax elevatorMotor;
-  CANSparkMax climbMotor;
-  DigitalInput climbLimitSwitch;
+  private CANSparkMax climbMotor;
+  private RelativeEncoder climbEncoder;
+  private SparkPIDController pidController;
+
 
   /** Creates a new Climb. */
   public Climb() {
-    elevatorMotor = new CANSparkMax(Constants.ClimbConstants.elevatorMotorID, CANSparkLowLevel.MotorType.kBrushed);
     climbMotor = new CANSparkMax(Constants.ClimbConstants.climbMotorID, CANSparkLowLevel.MotorType.kBrushless);
+    pidController.setP(0.02);
+    climbEncoder = climbMotor.getEncoder();
+    //climbEncoder.setPositionConversionFactor(0);
 
-    elevatorMotor.setIdleMode(IdleMode.kBrake);
     climbMotor.setIdleMode(IdleMode.kBrake);
-
-    climbLimitSwitch = new DigitalInput(1);
   }
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  
-  public void elevatorMotorForward() {
-    elevatorMotor.set(-Constants.ClimbConstants.elevatorSpeed);
-  }
-    
-  public void elevatorMotorReverse() {
-    // if (!climbLimitSwitch.get()) {
-      elevatorMotor.set(Constants.ClimbConstants.elevatorSpeed);
-    // }
-  }
-
-
-  public void elevatorMotorStop() {
-    elevatorMotor.set(0);
-  }
-
-  public Command elevatorUp() {
-    return runEnd(this::elevatorMotorForward, this::elevatorMotorStop);
-  }
-
-  public Command elevatorDown() {
-    return runEnd(this::elevatorMotorReverse, this::elevatorMotorStop);
-  }
-
 
   public void climbMotorForward() {
-    climbMotor.set(Constants.ClimbConstants.climbSpeed);
+    pidController.setReference(
+        ClimbConstants.rotations, 
+        CANSparkBase.ControlType.kPosition);
+    //climbMotor.set(Constants.ClimbConstants.climbSpeed);
   }
     
   public void climbMotorReverse() {
-    climbMotor.set(-Constants.ClimbConstants.climbSpeed);
+    pidController.setReference(
+            -ClimbConstants.rotations, 
+            CANSparkBase.ControlType.kPosition);
+    //climbMotor.set(-Constants.ClimbConstants.climbSpeed);
   }
 
   public void climbMotorStop() {

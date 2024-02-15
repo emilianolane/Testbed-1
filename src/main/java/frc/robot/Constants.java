@@ -26,5 +26,6 @@ public final class Constants {
     public static final int climbMotorID = 2;
     public static final double elevatorSpeed = 0.5;
     public static final double climbSpeed = 0.5;
+    public static double rotations = 2;
   }
 }

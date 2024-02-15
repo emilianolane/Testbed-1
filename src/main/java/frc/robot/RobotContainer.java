@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Climb m_climb = new Climb();
+  private final Elevator elevator = new Elevator();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static XboxController lilyShade = new XboxController(0);
@@ -32,8 +34,8 @@ public class RobotContainer {
   private final JoystickButton climbUpButton = new JoystickButton(lilyShade, XboxController.Button.kX.value);
   private final JoystickButton climbDownButton = new JoystickButton(lilyShade, XboxController.Button.kB.value);
 
-  private final Command elevatorUp = m_climb.elevatorUp();
-  private final Command elevatorDown = m_climb.elevatorDown();
+  private final Command elevatorUp = elevator.elevatorUp();
+  private final Command elevatorDown = elevator.elevatorDown();
   private final Command climbUp = m_climb.climbUp();
   private final Command climbDown = m_climb.climbDown();
 
@@ -70,8 +72,8 @@ public class RobotContainer {
     // driver.b().whileTrue(m_shooter.exampleMethodCommand());
     elevatorUpButton.whileTrue(elevatorUp);
     elevatorDownButton.whileTrue(elevatorDown);
-    climbUpButton.whileTrue(climbUp);
-    climbDownButton.whileTrue(climbDown);
+    climbUpButton.onTrue(climbUp);
+    climbDownButton.onTrue(climbDown);
   }
 
   /**
