@@ -4,15 +4,12 @@
 
 package frc.robot;
 
-import frc.robot.commands.Autos;
-import frc.robot.commands.Shoot;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Climb;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -25,14 +22,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Shooter m_shooter = new Shooter();
+  private final Climb m_climb = new Climb();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static XboxController lilyShade = new XboxController(0);
 
-  private final JoystickButton shootButton = new JoystickButton(lilyShade, XboxController.Button.kA.value);
+  private final JoystickButton elevatorUpButton = new JoystickButton(lilyShade, XboxController.Button.kY.value);
+  private final JoystickButton elevatorDownButton = new JoystickButton(lilyShade, XboxController.Button.kA.value);
+  private final JoystickButton climbUpButton = new JoystickButton(lilyShade, XboxController.Button.kX.value);
+  private final JoystickButton climbDownButton = new JoystickButton(lilyShade, XboxController.Button.kB.value);
 
-  private final Shoot shoot = new Shoot(m_shooter);
+  private final Command elevatorUp = m_climb.elevatorUp();
+  private final Command elevatorDown = m_climb.elevatorDown();
+  private final Command climbUp = m_climb.climbUp();
+  private final Command climbDown = m_climb.climbDown();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -65,8 +68,10 @@ public class RobotContainer {
     // pressed,
     // cancelling on release.
     // driver.b().whileTrue(m_shooter.exampleMethodCommand());
-    shootButton.whileTrue(shoot);
-    SmartDashboard.putData("shoot", shoot);
+    elevatorUpButton.whileTrue(elevatorUp);
+    elevatorDownButton.whileTrue(elevatorDown);
+    climbUpButton.whileTrue(climbUp);
+    climbDownButton.whileTrue(climbDown);
   }
 
   /**
@@ -74,8 +79,4 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_shooter);
-  }
 }

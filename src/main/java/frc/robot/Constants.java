@@ -21,16 +21,10 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class ShooterConstants {
-    public static final int leftFeedLeadMotor = 3;
-    public static final int leftShootLeadMotor = 4;
-    public static final int rightFeedFollowMotor = 1;
-    public static final int rightShootFollowMotor = 2;
-
-    public static final double leftshooterSpeed = 0.90;
-    public static final double rightshooterSpeed = 0.95;
-    public static final double feedMotorSpeed = 0.95;
-
-    public static final double shooterSetPoint = 1;
+  public static final class ClimbConstants {
+    public static final int elevatorMotorID = 1;
+    public static final int climbMotorID = 2;
+    public static final double elevatorSpeed = 0.5;
+    public static final double climbSpeed = 0.5;
   }
 }
